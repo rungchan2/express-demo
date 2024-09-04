@@ -29,6 +29,7 @@ db.set(id++, youtube1)
 db.set(id++, youtube2)
 db.set(id++, youtube3)
 
+// 조회 //
 app.get('/youtuber/:id', function (req, res) {
 
     let id = req.params.id
@@ -46,20 +47,79 @@ app.get('/youtuber/:id', function (req, res) {
     }
 })
 
+// 삭제 //
+app.delete('/youtuber/:id', function (req, res) {
+
+    let id = req.params.id
+    id = parseInt(id)
+    let youtuber = db.get(id)
+
+    if (db.get(id) == undefined) {
+        res.send('Nothing to delete')
+        console.log('Nothing to delete')
+    } else {
+        res.send(`id: ${youtuber.name} 삭제 완료`);
+        console.log(`id: ${youtuber.name} 삭제 완료`);
+        db.delete(id)
+    }
+
+})
+
+// 등록 // 
+
 app.use(express.json())
 
 app.post('/youtuber', function (req, res) {
-
     db.set(id++, req.body)
-
     res.json({
-        message: `${db.get(id-1).name} 환영합니다.`
+        message: `${db.get(id - 1).name} 환영합니다.`
     })
 })
 
+
+
 app.get('/youtubers', function (req, res) {
+
+    var youtubers = {}
+    db.forEach((value, key) => {
+        youtubers[key] = value
+    })
     res.send(
-        Array.from(db.values())
+        youtubers
     )
     console.log(`${db.size}명의 유튜버를 조회했습니다.`)
 })
+
+
+app.delete('/youtubers', function (req, res) {
+
+    let dbNum = db.size
+
+    if (db.size == 0) {
+        res.send('삭제할 유튜버가 없습니다.')
+    } else {
+        db.clear()
+        res.send(`${dbNum}명의 유튜버 삭제 완료`)
+    }
+
+})
+
+app.put('/youtuber/:id', function (req, res) {
+
+    let id = req.params.id
+    id = parseInt(id)
+    let youtuber = db.get(id)
+
+    if (youtuber == undefined) {
+        res.send('Not Found')
+    } else {
+        const newName = req.body.name
+
+        youtuber.name = newName
+
+        db.set(id, youtuber)
+        res.send(`id: ${youtuber.name} 수정 완료`);
+    }
+}
+)
+
