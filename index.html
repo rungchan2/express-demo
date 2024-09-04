@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <style>
+        ul {
+            list-style-type: none;
+        }
+        li {
+            display: flex;
+        }
+        input[type="radio"] {
+            display: none;
+        }
+        input[type="radio"] + label {
+            padding: 10px;
+            background-color: #f1f1f1;
+            cursor: pointer;
+        }
+        input[type="radio"]:checked + label {
+            background-color: #e9e9e9;
+        }
+    </style>
+    <div>
+        <ul>
+            <li>
+                <input type="radio" name="1" id="1"><label for="1">11234</label>
+                <input type="radio" name="1" id="2"><label for="2">21234</label>
+                <input type="radio" name="1" id="3"><label for="3">31234x</label>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>
